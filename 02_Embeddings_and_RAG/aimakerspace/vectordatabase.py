@@ -35,7 +35,7 @@ class VectorDatabase:
             (key, distance_measure(query_vector, vector))
             for key, vector in self.vectors.items()
         ]
-        return sorted(scores, key=lambda x: x[1], reverse=True)[:k]
+        return sorted(scores, key=lambda x: x[1], reverse=False)[:k]
 
     def search_by_text(
         self,
