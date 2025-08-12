@@ -92,7 +92,7 @@ def build_graph():
     """Build an agent graph with an auxiliary helpfulness evaluation subgraph."""
     graph = StateGraph(AgentState)
     tool_node = ToolNode(get_tool_belt())
-    graph.add_node("agent", call_model)
+    graph.add_node("ag  ent", call_model)
     graph.add_node("action", tool_node)
     graph.add_node("helpfulness", helpfulness_node)
     graph.set_entry_point("agent")
