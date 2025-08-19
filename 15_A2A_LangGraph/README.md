@@ -87,9 +87,19 @@ Do this by creating a Simple Agent that can make API calls to the 🤖Agent Node
 
 What are the core components of an `AgentCard`?
 
+- Agent Cards are used to advertise the capabilities of an agent so client agents can decide which remote agent is best suited to the tasks they need completed. Core components include:
+  - Agent name
+  - Agent description (string)
+  - URL
+  - Input/output modes (text, image, video, etc)
+  - Capabilities (for example if async streaming or push notifications are supported)
+  - Skills (details about tools the agent has access to: names, descripitons, tags, and example usage)
+
 ### ❓ Question #2:
 
 Why is A2A (and other such protocols) important in your own words?
+
+- Having a standard, common protocol allows a wide variety of agents (built by different companies, frameworks, etc) to collaborate flexibly and securely on complex tasks that a single agent couldn't solve alone. Different developers and agents can focus on their specialty, then share results without exposing proprietary implementation details or private internal data.
 
 ### 🚧 Advanced Build:
 
