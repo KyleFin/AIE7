@@ -33,3 +33,5 @@ Together offers serverless endpoints for embedding models, we'll be using the [B
 ### ❓ Question #1: 
 
 What is the difference between serverless and dedicated endpoints?
+
+  - Serverless endpoints only run when a request is received (you pay per token usage). Dedicated endpoints stay running and ready to respond to requests as long as you pay to keep it running.
