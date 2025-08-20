@@ -54,7 +54,7 @@ def _build_rag_graph(data_dir: str) -> "CompiledGraph":
     # Load PDFs from data directory (recursive)
     try:
         directory_loader = DirectoryLoader(
-            data_dir, glob="**/*.pdf", loader_cls=PyMuPDFLoader
+            data_dir, glob="**/The_Direct_Loan_Program.pdf", loader_cls=PyMuPDFLoader
         )
         documents = directory_loader.load()
     except Exception:
@@ -70,20 +70,24 @@ def _build_rag_graph(data_dir: str) -> "CompiledGraph":
         )
 
     text_splitter = RecursiveCharacterTextSplitter(
-        chunk_size=750, chunk_overlap=0, length_function=_tiktoken_len
+        chunk_size=400, chunk_overlap=50, length_function=_tiktoken_len
     )
     chunks = text_splitter.split_documents(documents) if documents else []
 
     # Embeddings and vector store (in-memory Qdrant)
     # embedding_model = OpenAIEmbeddings(model="text-embedding-3-small")
-    embedding_model = ChatTogether(
-        model="BAAI/bge-large-en-v1.5",
-        # temperature=0,
-        # max_tokens=None,
-        # timeout=None,
-        # max_retries=2,
-        # other params...
-    )
+    try:
+        from langchain_together import TogetherEmbeddings
+        embedding_model = TogetherEmbeddings(
+            model="BAAI/bge-base-en-v1.5"
+        )
+        print("Using Together.ai embedding API for BGE model")
+    except ImportError:
+        # Simple fallback to fake embeddings if TogetherEmbeddings not available
+        print("Warning: TogetherEmbeddings not available, using fake embeddings")
+        from langchain_community.embeddings import FakeEmbeddings
+        embedding_model = FakeEmbeddings(size=768)
+    
     qdrant_vectorstore = Qdrant.from_documents(
         documents=chunks, embedding=embedding_model, location=":memory:"
     )

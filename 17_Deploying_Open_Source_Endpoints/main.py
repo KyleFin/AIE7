@@ -29,18 +29,25 @@ def main():
     # print("Hello from 17-deploying-open-source-endpoints!")
     # graph = build_graph().compile()
     
+    # Test with just one question to see debug output
     question = "What type of student loans are available to freshmen?"
+    print(f"Testing question: {question}")
+    
     messages = [HumanMessage(content=question)]
     
-    response = graph.invoke({"messages": messages})
-    
-    # Extract and display the AI response more clearly
-    if "messages" in response and len(response["messages"]) > 1:
-        ai_message = response["messages"][-1]  # Get the last message (AI response)
-        print(f"Question: {question}")
-        print(f"\nAnswer: {ai_message.content}")
-    else:
-        print("Response:", response)
+    try:
+        response = graph.invoke({"messages": messages})
+        
+        # Extract and display the AI response more clearly
+        if "messages" in response and len(response["messages"]) > 1:
+            ai_message = response["messages"][-1]  # Get the last message (AI response)
+            print(f"\nFinal Answer: {ai_message.content}")
+        else:
+            print("Response:", response)
+    except Exception as e:
+        print(f"Error: {e}")
+        import traceback
+        traceback.print_exc()
 
 
 if __name__ == "__main__":
