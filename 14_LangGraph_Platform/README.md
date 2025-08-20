@@ -53,10 +53,18 @@ Run the repository and complete the following:
 
 What is the purpose of the `chunk_overlap` parameter when using `RecursiveCharacterTextSplitter` to prepare documents for RAG, and what trade-offs arise as you increase or decrease its value?
 
+- `chunk_overlap` is how many characters are included in both the previous AND next chunk. Allowing some overlap helps to ensure we don't rigidly break chunks in the middle of important context (for example in the middle of a word or sentence). Having higher overlap means we should be able to keep surrounding context together in one chunk, however, it also means we have more duplication in our chunks which will take more storage space and could make retrieval return multiple chunks when they're not all necessary. Lower overlap can make our retrieval more precise, but we could miss important surrounding context.
+
+
 #### ❓ Question:
 
 Your retriever is configured with `search_kwargs={"k": 5}`. How would adjusting `k` likely affect RAGAS metrics such as Context Precision and Context Recall in practice, and why?
 
+- Increasing `k`, Context precision and recall would likely improve since we're retrieving more documents so we have a higher chance of retrieving the correct documents. In practice, they should improve that much since hopefully the most relevant chunks are already within our top 5.
+- Decreasing `k` may lead to Context precision and recall decreasing since then we're only retrieving a few documents, so our retrieval technique will need to be very accurate in order to earn a high score.
+
 #### ❓ Question:
 
 Compare the `agent` and `agent_helpful` assistants defined in `langgraph.json`. Where does the helpfulness evaluator fit in the graph, and under what condition should execution route back to the agent vs. terminate?
+
+- Agent can either call another tool OR send the current response and State to the Helpfulness evaluation. If the response is sufficiently helpful for the original user request, it can be returned and the graph terminates. Otherwise, flow should return back to the agent for additional tools calls until the response is sufficiently helpful.
