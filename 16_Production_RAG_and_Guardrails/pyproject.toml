@@ -21,4 +21,7 @@ dependencies = [
     "arxiv>=2.1.0",
     "cryptography==44.0.3",
     "guardrails-ai==0.5.14",
+    "openai==1.99.5",
+    "cached-path==1.7.3",
+    "spacy==3.7.5",
 ]
